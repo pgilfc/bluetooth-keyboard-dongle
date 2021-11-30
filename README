@@ -1,0 +1,5 @@
+# bluetooth keyboard auto loader
+Script to auto pair a bluetooth keyboard to current device and hook it to the usb output
+
+## Requirements
+* bluetoothctl
