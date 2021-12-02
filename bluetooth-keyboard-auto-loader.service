@@ -1,0 +1,19 @@
+[Unit]
+Description=bluetooth-keyboard-auto-loader
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/bluetooth-keyboard-auto-loader
+ExecStart=python3 /bluetooth-keyboard-auto-loader/main.py
+PIDFile=/bluetooth-keyboard-auto-loader/myapp.pid
+Restart=on-failure
+RestartSec=5
+SyslogIdentifier=bluetooth-keyboard-auto-loader
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target
+
