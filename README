@@ -3,3 +3,6 @@ Script to auto pair a bluetooth keyboard to current device and hook it to the us
 
 ## Requirements
 * bluetoothctl
+
+## Systemd
+Copy bluetooth-keyboard-auto-loader.service to /etc/systemd/system
