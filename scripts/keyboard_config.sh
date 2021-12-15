@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# with help from https://github.com/torvalds/linux/blob/master/Documentation/usb/gadget_configfs.rst
-# and https://www.rmedgar.com/blog/using-rpi-zero-as-keyboard-setup-and-device-definition
+# with help from https://www.rmedgar.com/blog/using-rpi-zero-as-keyboard-setup-and-device-definition
+# and https://github.com/torvalds/linux/blob/master/Documentation/usb/gadget_configfs.rst
 
 # Create gadget
 mkdir /sys/kernel/config/usb_gadget/mykeyboard
