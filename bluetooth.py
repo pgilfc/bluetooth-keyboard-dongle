@@ -6,7 +6,7 @@ class bluetoothctl:
         subprocess.run("bluetoothctl power on", shell=True)
 
     def scan_start(self):
-        return subprocess.Popen(["bluetoothctl", "scan", "on"])
+        return subprocess.Popen(["bluetoothctl", "scan", "on"], stdout=subprocess.PIPE)
 
     def scan_stop(self, process):
         process.terminate()
