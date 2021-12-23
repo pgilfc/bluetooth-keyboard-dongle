@@ -1,0 +1,18 @@
+[Unit]
+Description=bluetooth-keyboard-bypass
+Requires=bluetooth-keyboard-connect.service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/bluetooth-keyboard-auto-loader
+ExecStart=python3 /bluetooth-keyboard-auto-loader/keyboard_bypass.py
+Restart=on-failure
+SyslogIdentifier=bluetooth-keyboard-bypass
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target
+

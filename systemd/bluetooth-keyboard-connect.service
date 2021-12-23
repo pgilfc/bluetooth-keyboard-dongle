@@ -1,5 +1,5 @@
 [Unit]
-Description=bluetooth-keyboard-auto-loader
+Description=bluetooth-keyboard-connect
 After=network.target
 
 [Service]
@@ -7,9 +7,9 @@ Type=simple
 User=root
 Group=root
 WorkingDirectory=/bluetooth-keyboard-auto-loader
-ExecStart=python3 /bluetooth-keyboard-auto-loader/main.py
+ExecStart=python3 /bluetooth-keyboard-auto-loader/keyboard_connect.py
 Restart=on-failure
-SyslogIdentifier=bluetooth-keyboard-auto-loader
+SyslogIdentifier=bluetooth-keyboard-connect
 RemainAfterExit=no
 
 [Install]

@@ -1,8 +1,12 @@
 # bluetooth keyboard auto loader
-Script to auto pair a bluetooth keyboard to current device and hook it to the usb output
+Scripts to auto pair a bluetooth keyboard to current device and hook it to the usb output on a pi zero (built for a Keychron K2)
+For other types of solutions https://github.com/Gadgetoid/pi400kb is probably the best aproach 
+Use evtest for debugging
 
 ## Requirements
 * bluetoothctl
 
 ## Systemd
-Copy bluetooth-keyboard-auto-loader.service to /etc/systemd/system
+Copy bluetooth-keyboard-.service to /etc/systemd/system
+create symlink at /etc/systemd/system/multi-user.target.wants/
+run `sudo source scripts/bootstrap_keyboard_config.sh`
