@@ -1,0 +1,3 @@
+[submodule "input-event-blocker"]
+	path = input-event-blocker
+	url = git@github.com:pgilfc/input-event-blocker.git
