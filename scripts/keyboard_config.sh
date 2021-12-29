@@ -31,7 +31,7 @@ echo 0 > functions/hid.usb0/subclass
 # it would work just fine in linux, however, in windows it would throw errors
 # what i ended up doing was edit the report descriptor as to leave only the absolute necessary REPORT IDs (in this case 1 and 8)
 # helpful commands:
-# - xxd -i /dev/hidraw0 (translate report descriptor to hex)
+# - xxd -i /sys/class/input/$1/device/device/report_descriptor (translate report descriptor to hex)
 # - evtest (monitor keypresses)
 # - cmp compare binary files
 # if you need to use this, either replace the next line with the former line and test it

@@ -140,5 +140,5 @@ cython_debug/
 # File containing the macaddress of the device
 MACADDRESS
 
-#event blocker exe file
+#Event blocker exe file
 input-event-blocker.out

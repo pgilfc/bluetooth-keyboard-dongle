@@ -32,14 +32,36 @@ def get_input_event(address):
                     break
     return event
 
+def start_stream(event):
+    blocker = subprocess.Popen(["./input-event-blocker.out", event])
+    stream = subprocess.Popen("exec cat {} > {}".format(HIDRAW, HIDG), shell=True)
+    return blocker, stream
+
+def stop_stream(blocker, stream):
+    blocker.terminate()
+    stream.terminate()
+
+def read_config(filename):
+    # import device mac address 
+    datafile = open(filename, "r")
+    config = datafile.read().strip(" ").strip("\n")
+    datafile.close()
+    return config
+
 if __name__ == '__main__':
 
-    stream_it = True
+    #bypass "/sys/kernel/config/usb_gadget/mykeyboard" validation faster
+    first_time_running = True
+
+    # Kill possible blockers in the event of an app crash
+    subprocess.run(["killall", "./input-event-blocker.out"])
 
     # import device mac address 
-    datafile = open("MACADDRESS", "r")
-    address = datafile.read().strip(" ").strip("\n")
-    datafile.close()
+    address = read_config("MACADDRESS")
+
+    # import stop_message
+    stop_message = read_config("STOP_MESSAGE")
+    len_stop_message = len(stop_message)
 
     # build input event blocker
     subprocess.run("gcc -o input-event-blocker.out input-event-blocker/input-event-blocker.c", shell=True)
@@ -55,26 +77,37 @@ if __name__ == '__main__':
         while not blu.is_connected():
             sleep(2)
 
+        # get input event
         event = get_input_event(address)
+        if event == "":
+            continue
 
-        if event != "" and os.path.exists(HIDRAW):
-            with open(HIDRAW, 'rb') as f, open(HIDG,"wb") as out:
-                blocker = subprocess.Popen(["./input-event-blocker.out", event])
-                while os.path.exists(HIDRAW):
-                    buf = f.read(6)
-                    if hex(buf[0]) == "0x1":
-                        head = buf[1:]
-                        buf = f.read(5)
-                        message = bintohex(head + buf[:-2])
-                        if message == "\\x5f\\0\\0\\0\\0\\0\\0\\0": # left shift, left ctrl, left special, left alt, right alt, right ctrl
+        # init hid gadget
+        if first_time_running and not os.path.exists("/sys/kernel/config/usb_gadget/mykeyboard"):
+            subprocess.run(["modprobe", "libcomposite"])
+            subprocess.run(["bash", "scripts/keyboard_config.sh", event])
+            first_time_running = False
+
+        while os.path.exists("/dev/input/{}".format(event)) and os.path.exists(HIDRAW):
+            with open(HIDRAW, 'rb') as f:
+                print("Starting stream")
+                buf = b''
+                blocker, stream = start_stream(event)
+                stream_it = True
+                while True:
+                    try:
+                        buf = buf + f.read(1)
+                        while len(bintohex(buf)) > len_stop_message:
+                            buf = buf[1:]
+                        if bintohex(buf) == stop_message:
                             if stream_it:
-                                blocker.terminate()
+                                stop_stream(blocker, stream)
                             else:
-                                blocker = subprocess.Popen(["./input-event-blocker.out", event])
+                                blocker, stream = start_stream(event)
                             stream_it = not stream_it
-                    elif hex(buf[0]) == "0x8":
-                        message = "\\0\\0\\x" + "%x"%buf[1] + "\\0\\0\\0\\0\\0"
-                    else:
-                        message = "\\0\\0\\0\\0\\0\\0\\0\\0"
-                    if stream_it:
-                        subprocess.run(["echo", "-ne", message], stdout=out)
+                            print("Streaming: ", stream_it)
+                    except:
+                        print("Something went wrong...")
+                        break
+                stop_stream(blocker, stream)
+                print("Ending stream")
