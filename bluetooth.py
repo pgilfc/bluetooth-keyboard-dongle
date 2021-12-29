@@ -21,8 +21,8 @@ class bluetoothctl:
     def in_paired_devices(self):
         return self.mac_address in subprocess.run("bluetoothctl paired-devices", shell=True, capture_output=True, text=True).stdout
 
-    def connect_first_time(self): # wasnt connecting properly without this script
-        subprocess.run(["bash", "./bluetooth_connect_first_time.sh", self.mac_address])
+    def connect_first_time(self): # for connection to persist, all the commands needed to be run inside bluetoothctl
+        subprocess.run(["bash", "./scripts/bluetooth_connect_first_time.sh", self.mac_address])
 
     def info(self):
         return subprocess.run(["bluetoothctl", "info", self.mac_address], capture_output=True, text=True).stdout
