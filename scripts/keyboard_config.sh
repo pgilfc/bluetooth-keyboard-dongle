@@ -33,7 +33,7 @@ echo 0 > functions/hid.usb0/subclass
 # helpful commands:
 # - xxd -i /sys/class/input/$1/device/device/report_descriptor (translate report descriptor to hex)
 # - evtest (monitor keypresses)
-# - cmp compare binary files
+# - cmp (compare binary files)
 # if you need to use this, either replace the next line with the former line and test it
 # or take some time to learn about HID descriptors and adapt it to your needs
 cp /bluetooth-keyboard-auto-loader/scripts/report_desc functions/hid.usb0/report_desc
