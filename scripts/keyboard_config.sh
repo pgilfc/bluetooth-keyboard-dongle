@@ -3,6 +3,7 @@
 # with help from https://www.rmedgar.com/blog/using-rpi-zero-as-keyboard-setup-and-device-definition
 # and https://github.com/torvalds/linux/blob/master/Documentation/usb/gadget_configfs.rst
 # and http://eleccelerator.com/usbdescreqparser/
+# and https://www.usb.org/hid
 
 mkdir /sys/kernel/config/usb_gadget/mykeyboard
 cd /sys/kernel/config/usb_gadget/mykeyboard
@@ -33,6 +34,8 @@ echo 0 > functions/hid.usb0/subclass
 # - xxd -i /dev/hidraw0 (translate report descriptor to hex)
 # - evtest (monitor keypresses)
 # - cmp compare binary files
+# if you need to use this, either replace the next line with the former line and test it
+# or take some time to learn about HID descriptors and adapt it to your needs
 cp /bluetooth-keyboard-auto-loader/scripts/report_desc functions/hid.usb0/report_desc
 
 mkdir configs/c.1
