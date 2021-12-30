@@ -75,7 +75,7 @@ if __name__ == '__main__':
 
         # check if connected with device
         while not blu.is_connected():
-            sleep(2)
+            pass
 
         # get input event
         event = get_input_event(address)
