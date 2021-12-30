@@ -36,7 +36,7 @@ echo 0 > functions/hid.usb0/subclass
 # - cmp (compare binary files)
 # if you need to use this, either replace the next line with the former line and test it
 # or take some time to learn about HID descriptors and adapt it to your needs
-cp /bluetooth-keyboard-auto-loader/scripts/report_desc functions/hid.usb0/report_desc
+cp /bluetooth-keyboard-dongle/scripts/report_desc functions/hid.usb0/report_desc
 
 mkdir configs/c.1
 mkdir configs/c.1/strings/0x409

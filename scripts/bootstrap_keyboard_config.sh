@@ -5,9 +5,9 @@
 
 echo "dtoverlay=dwc2" >> $2/config.txt
 
-mkdir $1/bluetooth-keyboard-auto-loader
+mkdir $1/bluetooth-keyboard-dongle
 
-cp -R . $1/bluetooth-keyboard-auto-loader
+cp -R . $1/bluetooth-keyboard-dongle
 
 cp scripts/main.conf $1/etc/bluetooth/main.conf
 
@@ -19,6 +19,6 @@ cp systemd/bluetooth-keyboard-connect.service $1/etc/systemd/system/bluetooth-ke
 
 cd $1/etc/systemd/system/multi-user.target.wants/
 
-ln -s bluetooth-keyboard-bypass.service ../bluetooth-keyboard-bypass.service
+ln -s ../bluetooth-keyboard-bypass.service bluetooth-keyboard-bypass.service
 
-ln -s bluetooth-keyboard-connect.service ../bluetooth-keyboard-connect.service
+ln -s ../bluetooth-keyboard-connect.service bluetooth-keyboard-connect.service
