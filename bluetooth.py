@@ -8,10 +8,10 @@ class bluetoothctl:
     def power_bluetooth(self):
         subprocess.run(["bluetoothctl", "power", "on"])
 
-    def scan_start(self):
+    def scan_start(self) -> subprocess.Popen[bytes]:
         return subprocess.Popen(["bluetoothctl", "scan", "on"], stdout=subprocess.PIPE, stdin=subprocess.PIPE)
 
-    def scan_stop(self, process):
+    def scan_stop(self, process: subprocess.Popen[bytes]) -> str:
         process.terminate()
         return process.communicate()[0].decode('utf-8')
 
@@ -35,3 +35,6 @@ class bluetoothctl:
 
     def remove(self):
         subprocess.run(["bluetoothctl", "remove", self.mac_address])
+
+    def connect(self):
+        subprocess.run(["bluetoothctl", "connect", self.mac_address])
